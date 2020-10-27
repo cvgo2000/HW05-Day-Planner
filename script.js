@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    // Sets text content of HTML element with id of currentDay to today's date using moment.js
+    // Sets text content of HTML element with id of currentDay to today's date using moment.js per my tutor's suggestion
     $("#currentDay").text(moment().format("dddd, MMMM Do"));
 
     // Array for time - used to dynamically create time blocks on the page
@@ -16,7 +16,7 @@ $(document).ready(function() {
         // ROW: create div row containing each time block
         var newRow = $("<div>").addClass("row");
 
-        // COLUMN 1: create column div for first column with time (2 blocks)
+        // Create column div for first column with time (2 blocks)
         var col1 = $("<div>").addClass("col-sm-2 time-block hour");
             // sets text to AM or PM based on array element/time
             if(element <= 11) {
@@ -29,11 +29,11 @@ $(document).ready(function() {
                 col1.text(`${element-12}PM`);
             }
 
-        // COLUMN 2: create column div for second column with text area (9 blocks)
+        // Create column div for second column with text area (9 blocks)
         var col2 = $("<textarea>").addClass("col-sm-9 row text-column");
         col2.attr("id", "col-text-"+element);
             // checks current hour and sets column class to past, present, or future based on the time
-            if(element == moment().hour()) {
+            if(element === moment().hour()) {
                 col2.addClass("present");
             }
             else if(element < moment().hour()) {
@@ -43,12 +43,12 @@ $(document).ready(function() {
                 col2.addClass("future");
             }
 
-        // COLUMN 3: create column div for third column with save button (1 block)
+        // Create column div for third column with save button (1 block)
         var col3 = $("<button type='submit'>").addClass("col-sm-1 saveBtn");
         col3.attr("value", element);
         col3.append($("<i class='fas fa-save'>"));
 
-        // appending newly created columns to newly created row, and then appending row to container div
+        // Appends newly created columns to newly created row, and then appending row to container div
         newRow.append(col1);
         newRow.append(col2);
         newRow.append(col3);
@@ -58,13 +58,13 @@ $(document).ready(function() {
     // Adding event listener to save buttons
     $("button").on("click", saveToLocalStorage);
 
-    // This is called whenever a button is clicked, storing the value of user inputs to local storage
+    // Saves value of user input to local storage whenever save is clicked
     function saveToLocalStorage() {
         var todoObject = {
             hour: $(this).val(),
             todo: $("#col-text-"+$(this).val()).val()
         }
-        // pushes newly created todoObject to todoList array, then sets the todoList array to localStorage
+        // Pushes newly created todoObject to todoList array, then sets the todoList array to localStorage
             todoList.push(todoObject);
             localStorage.setItem("todoList", JSON.stringify(todoList));
     }
